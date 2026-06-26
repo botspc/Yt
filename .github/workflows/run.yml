@@ -1,0 +1,33 @@
+name: Run YouTube Test
+
+on:
+  workflow_dispatch: # يتيح لك تشغيله يدوياً بضغطة زر في أي وقت
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/with-python@v5
+      with:
+        python-version: '3.10'
+
+    - name: Install Google Chrome Browser
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y wget curl unzip
+        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+        sudo apt-get install -y ./google-chrome-stable_current_amd64.deb
+
+    - name: Install Virtual Display & Python Libraries
+      run: |
+        sudo apt-get install -y xvfb
+        pip install undetected-chromedriver selenium
+
+    - name: Execute Bot with Virtual Display
+      run: |
+        xvfb-run --server-args="-screen 0 1280x720x24" python bot.py
