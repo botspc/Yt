@@ -10,22 +10,20 @@ def run_bot():
     options.add_argument('--disable-dev-shm-usage')
     options.add_argument('--window-size=1280,720')
     
-    driver = uc.Chrome(options=options)
+    # تم تثبيت الإصدار 149 لحل مشكلة السيرفر الأخيرة
+    driver = uc.Chrome(options=options, version_main=149)
     
     try:
-        # رابط مقطعك مدمج جاهز
         VIDEO_URL = "https://youtu.be/Jcegn1paM7g?si=X__yXMzRkueEtilq"
         
         print(f"[+] الدخول إلى رابط الفيديو مباشرة: {VIDEO_URL}")
         driver.get(VIDEO_URL)
         
-        # وقت مشاهدة عشوائي ليناسب طول مقطعك
         watch_duration = random.randint(90, 160) 
         print(f"[+] تم فتح مقطعك بنجاح. جاري المحاكاة والمشاهدة لمدة {watch_duration} ثانية...")
         
         start_time = time.time()
         while time.time() - start_time < watch_duration:
-            # محاكاة حركة التمرير العشوائي
             scroll_amount = random.randint(150, 400)
             driver.execute_script(f"window.scrollBy(0, {scroll_amount});")
             time.sleep(random.randint(7, 12))
